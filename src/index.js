@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
+import TextareaAutosize from "react-textarea-autosize";
 import LZUTF8 from "lzutf8";
 import "./index.css";
 
@@ -22,8 +23,13 @@ function Editor() {
 
   return (
     <>
-      <textarea value={text} onChange={e => updateText(e.target.value)} />
-      <div>{text.length}</div>
+      <TextareaAutosize
+        autoFocus
+        spellCheck={false}
+        value={text}
+        onChange={e => updateText(e.target.value)}
+      />
+      <div id="char-count">{text.length} characters</div>
     </>
   );
 }
