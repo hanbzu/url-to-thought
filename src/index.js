@@ -1,12 +1,28 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
+import LZUTF8 from "lzutf8";
+import "./index.css";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+var parsedUrl = new URL(window.location.href);
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+console.log(parsedUrl.hash);
+
+function Editor() {
+  const [text, setText] = useState("");
+  const updateText = text => {
+    const compressed = LZUTF8.compress(text, { outputEncoding: "Base64" });
+    window.location.hash = "#" + compressed;
+    setText(text);
+  };
+
+  return (
+    <>
+      <div>{text.length}</div>
+      <textarea value={text} onChange={e => updateText(e.target.value)} />
+    </>
+  );
+}
+
+ReactDOM.render(<Editor />, document.getElementById("root"));
+
+window.location.hash = "#doing";
